@@ -5,7 +5,7 @@
 
 >The script was produced using Python 2.7 on an ubuntu 12.04 32-bit linux image. The result, "result.txt", and the script, "sentiment_analysis.py", are availiable in the main repo.
 
-_Note_: There were 37861 tweets, not all emitted from within the U.S., collected and analysis.
+Note: There were 37861 tweets, not all emitted from within the U.S., collected and analysis.
 
-_Note_: Only states from which at least one tweet emitted would appear in the result.
+Note: Only states from which at least one tweet emitted would appear in the result.
 
