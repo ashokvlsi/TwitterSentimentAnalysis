@@ -347,7 +347,6 @@ def sentiment_analysis(s,t):
     # Calculates the score for each tweet
     tweet_scores = []
     tweets = t.readlines()  
-    print str(len(tweets))  
     for line in tweets:
         tweet = json.loads(line)       
         if 'text' in tweet.keys() and 'place' in tweet.keys() and \
