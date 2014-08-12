@@ -55,21 +55,30 @@ WV={'WV': [[-80.5186, 40.637], [-80.5186, 39.7223], [-79.478, 39.7223], [-79.488
 WI={'WI': [[-90.399, 47.0778], [-90.4647, 46.9957], [-90.4483, 47.0669]]}
 WY={'WY': [[-109.0808, 45.0021], [-104.0585, 44.9966], [-104.053, 43.003], [-104.053, 41.0039], [-107.9197, 41.0039], [-109.048, 40.9984], [-111.0471, 40.9984], [-111.0471, 42.0007], [-111.0471, 44.4763], [-111.0525, 45.0021]]}
 
+
 # 2-letter abbreviation of each state. 
-# Note that Idaho, Indiana, and Oregon are represented by `IDA`, `IND` and `ORE` instead
-# to avoid technical issues due to the reserved terms in the language.
-statesName = [AL,AK,AZ,AR,CA,CO,CT,DE,DC,FL,GA,HI,IDA,IL,IND,IA,KS,KY,LA,ME,MD,MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,
+# Note that Idaho, Indiana, and Oregon are represented by `IDA`, `IND` and `ORE`
+# instead to avoid technical issues due to the reserved terms in the language.
+statesName = [AL,AK,AZ,AR,CA,CO,CT,DE,DC,FL,GA,HI,IDA,IL,IND,IA,KS,KY,LA,ME,MD,
+MA,MI,MN,MS,MO,MT,NE,NV,NH,NJ,NM,NY,NC,ND,OH,OK,
 ORE,PA,RI,SC,SD,TN,TX,UT,VT,VA,WA,WV,WI,WY]
 
-scores = {} # a dictionary with the terms as keys and the corresponding score for each team as values
-terms = [] # a list containing terms that occur in the score dictionary
-terms = [] # a list containing all sentiment-carrying terms 
-scores = {} # a dictionary with the sentiment-carrying terms as keys and the corresponding score for each team as values
-terms1 = [] # a list containing all sentiment-carrying 1-word terms 
-oneWord_scores = {}
-terms2 = [] # a list containing all sentiment-carrying 2-word terms 
+# A dictionary with the terms as keys and the corresponding score for 
+# each team as values.
+scores = {} 
+# A list containing terms that occur in the score dictionary.
+terms = [] 
+# A list containing all sentiment-carrying terms.
+terms = []  
+# A dictionary with the sentiment-carrying terms as keys and the corresponding
+# score for each team as values.
+scores = {} 
+terms1 = [] # A list containing all sentiment-carrying 1-word terms. 
+# A dict with all sentiment-carrying 1-word terms and their score.
+oneWord_scores = {} 
+terms2 = [] # A list containing all sentiment-carrying 2-word terms. 
 twoWord_scores = {}
-terms3 = [] # a list containing all sentiment-carrying 3-word terms 
+terms3 = [] # A list containing all sentiment-carrying 3-word terms.
 threeWord_scores = {}
 
 
@@ -216,7 +225,8 @@ def sent_score(lst):
     
     
 #
-# Computes the coordinates of the center of the convex hull having a given set of vertices.
+# Computes the coordinates of the center of the convex hull having a given 
+# set of vertices.
 # @input:
 #     pts is a list if coordinates of vertices.
 # @return:
@@ -243,8 +253,8 @@ def center(pts):
 # @input:
 #     pt is the point in question.
 # @return:
-#     The 2-letter abbreviation of the state in which the point locates if a state is detected
-#     and `undetermined` otherwise.
+#     The 2-letter abbreviation of the state in which the point locates if a 
+#	  state is detected and `undetermined` otherwise.
 #
 def in_state(pt):    
     x = pt[0]
@@ -265,8 +275,11 @@ def in_state(pt):
             n = len(xcoords)
             l = n-1
             for k in range(n):
-                if ycoords[k]<y and ycoords[l]>=y or ycoords[l]<y and ycoords[k]>=y:
-                    z = xcoords[k]+(y-ycoords[k])*(xcoords[l]-xcoords[k])/(ycoords[l]-ycoords[l]-ycoords[k])
+                if ycoords[k]<y and ycoords[l]>=y or \
+                ycoords[l]<y and ycoords[k]>=y:
+                    z = xcoords[k]+\
+                    (y-ycoords[k])*(xcoords[l]-xcoords[k])/\
+                    (ycoords[l]-ycoords[l]-ycoords[k])
                     if z < x:
                       return name
                 l=k
@@ -278,12 +291,14 @@ def in_state(pt):
 
 
 #
-# Computes and displays the average sentiment score for each state from which a tweet in the sample data has been emitted
+# Computes and displays the average sentiment score for each state from which a
+# tweet in the sample data has been emitted
 # @input:
-#     rec is a dictionary having the states as keys and the couple consisting of their total sentiment score 
-#     and number of tweets as values.
+#     rec is a dictionary having the states as keys and the couple consisting of
+#	  their total sentiment score and number of tweets as values.
 # @return:
-#     a string with the name of the state having highest score followed by the name of the state having lowest score.
+#     a string with the name of the state having highest score followed by the 
+#	  name of the state having lowest score.
 #
 def scoreByState(rec):
     #flag = False
@@ -310,7 +325,6 @@ def scoreByState(rec):
             #flag = True
             neg_state = s
         
-
     return pos_state + ',' + neg_state
 
 
@@ -332,12 +346,14 @@ def sentiment_analysis(s,t):
     sent_dict(s)              
     # Calculates the score for each tweet
     tweet_scores = []
-    tweets = t.readlines()    
+    tweets = t.readlines()  
+    print str(len(tweets))  
     for line in tweets:
         tweet = json.loads(line)       
-        if 'text' in tweet.keys() and 'place' in tweet.keys() and not tweet['place'] == None and tweet['place'] ['country_code'] == 'US':
-            
-            coords = tweet['place'] ['bounding_box']['coordinates'][0] # a list of the vertices of the box 
+        if 'text' in tweet.keys() and 'place' in tweet.keys() and \
+        not tweet['place'] == None and tweet['place'] ['country_code'] == 'US':
+        	# A list of the vertices of the box             
+            coords = tweet['place'] ['bounding_box']['coordinates'][0] 
             theState = in_state(center(coords))            
             if not theState == 'undetermined':
                 value = tweet['text'].encode('utf-8')         
@@ -345,13 +361,15 @@ def sentiment_analysis(s,t):
                 total =  sent_score(split_tweet)         
                 if theState in states:
 	            # Increments the count by one and score by total
-                    census[theState] = [census[theState][0]+1,census[theState][1]+total] 
+                    census[theState] = \
+                    [census[theState][0]+1,census[theState][1]+total] 
                 else:
                     states.append(theState)
                     census[theState] = [1, total] 
     
     states = scoreByState(census).split(',')
-    print '\nState having the highest score: '+ states[0]+ '\nState having the lowestest score: '+ states[1]+'\n'  
+    print '\nState having the highest score: '+ states[0] + \
+    '\nState having the lowestest score: '+ states[1]+'\n'  
 
 
 
@@ -411,15 +429,16 @@ def top_ten_hashtags(t):
         
         
 def main():
-    sent_file = open(sys.argv[1],"r") # Contains the terms and each of their score
+	# Contains the terms and each of their sentiment score
+    sent_file = open(sys.argv[1],"r") 
     tweet_file = open(sys.argv[2],"r")
     sentiment_analysis(sent_file,tweet_file)
-    # Returns to the beginning of the tweet file since it's been read  for the previous function.
+    # Returns to the beginning of the tweet file 
+    # since it's been read for the previous function.
     tweet_file.seek(0)	
     top_ten_hashtags(tweet_file)
     sent_file.close()
     tweet_file.close()
     
-
 if __name__ == '__main__':
     main()
