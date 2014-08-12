@@ -1,0 +1,30 @@
+List of states and their respective average sentiment scores:
+
+(AK,-0.714285714286)
+(AL,-0.961538461538)
+(AZ,-0.617647058824)
+(CA,-0.0692307692308)
+(CT,7.0)
+(FL,0.166666666667)
+(ID,-0.382352941176)
+(LA,-2.0)
+(OR,-2.33333333333)
+(TX,-0.458333333333)
+(WA,0.0)
+
+State having the highest score: CT
+State having the lowestest score: OR
+
+
+List of the ten most frequently used hashtags in the sample:
+
+obama 1820
+iraq 1720
+tcot 1454
+isis 497
+pjnet 371
+news 346
+p2 282
+thefive 280
+uniteblue 243
+ccot 206
